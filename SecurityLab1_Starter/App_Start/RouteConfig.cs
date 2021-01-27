@@ -12,11 +12,31 @@ namespace SecurityLab1_Starter
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+        
+            routes.MapRoute(
+                name: "BlankURL",
+                url: "",
+                defaults: new { controller = "Home", action = "Index" }
+            );
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                name: "HomeRoute",
+                url: "Home/{action}",
+                new { controller = "Home", action = "Index" },
+                new { action = @"^Index$|^About$|^Contact$" }
+            );
+
+            routes.MapRoute(
+                name: "InventoryRoute",
+                url: "Inventory/{action}",
+                new {controller = "Inventory", action = "Index"},
+                new {action = @"^Index$"}
+            );
+
+            routes.MapRoute(
+                name: "CatchAll",
+                url: "{*url}",
+                defaults: new { controller = "Error", action = "NotFound" }
             );
         }
     }
